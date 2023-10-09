@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MoviesModule } from './movies/movies.module';
 import { CommonModule } from './common/common.module';
-import { SeederService } from './seeder/seeder.service';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -27,6 +26,6 @@ import { AuthModule } from './auth/auth.module';
 
     AuthModule,
   ],
-  providers: [SeederService],
+
 })
 export class AppModule {}

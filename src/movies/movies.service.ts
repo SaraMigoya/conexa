@@ -21,8 +21,6 @@ export class MoviesService {
 
   ) {}
 
-
-
   async create(createMovieDto: CreateMovieDto) {
     
     try {
@@ -40,7 +38,24 @@ export class MoviesService {
   }
 
 
-  findAll( paginationDto: PaginationDto ) {
+  async findAll( paginationDto: PaginationDto ) {
+
+    const { limit = 10, offset = 0 } = paginationDto;
+
+    // Realiza la consulta a la base de datos seleccionando solo el campo "title"
+    const movies = await this.MovieRepository.find({
+      select: ['title'], // Aquí seleccionamos solo el campo "title"
+      take: limit,
+      skip: offset,
+      // TODO: relaciones
+    });
+
+    // Extrae los títulos de las películas y retorna un array de títulos
+    const titles = movies.map(movie => movie.title);
+
+    return titles;
+  }
+  findAllDetails( paginationDto: PaginationDto ) {
 
     const { limit = 10, offset = 0 } = paginationDto;
 
@@ -97,7 +112,7 @@ export class MoviesService {
       throw new BadRequestException(error.detail);
     
     this.logger.error(error)
-    // console.log(error)
+  
     throw new InternalServerErrorException('Unexpected error, check server logs');
 
   }

@@ -19,26 +19,12 @@ import { JwtStrategy } from './jwt/jwt.strategy';
 
     PassportModule.register({ defaultStrategy: 'jwt' }),
 
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [],
-      useFactory: () => {
-        // console.log('JWT Secret', configService.get('JWT_SECRET') )
-        // console.log('JWT SECRET', process.env.JWT_SECRET)
-        return {
-          secret: process.env.JWT_SECRET,
-          signOptions: {
-            expiresIn: '5h'
-          }
-        }
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: {
+        expiresIn: '5h'
       }
     })
-    // JwtModule.register({
-    // secret: process.env.JWT_SECRET,
-    // signOptions: {
-    //   expiresIn:'5h'
-    // }
-    // })
 
   ],
   exports: [TypeOrmModule, JwtStrategy, PassportModule, JwtModule]

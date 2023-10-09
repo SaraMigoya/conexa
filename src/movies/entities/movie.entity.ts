@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { User } from '../../auth/entities/user.entity';
 @Entity()
 export class Movie {
 
@@ -21,5 +21,11 @@ export class Movie {
         default: 0
     })
     date: number;
+    @ManyToOne(
+        () => User,
+        ( user ) => user.movie,
+        { eager: true }
+    )
+    user: User
 
 }
